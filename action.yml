@@ -12,7 +12,7 @@ inputs:
     required: false
   pattern:
     description: The pattern to use when searching for files
-    default: "**/*"
+    default: "['**/*']"
     required: false
 
 runs:
