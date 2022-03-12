@@ -4026,10 +4026,19 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
 const glob = __importStar(__nccwpck_require__(90));
 const run = () => __awaiter(void 0, void 0, void 0, function* () {
-    const pattern = core.getInput('pattern');
-    const globber = yield glob.create(pattern);
-    const files = yield globber.glob();
-    console.log(files);
+    const patternInput = core.getInput('pattern');
+    try {
+        const pattern = JSON.parse(patternInput);
+        if (typeof pattern !== 'string' && !Array.isArray(pattern)) {
+            throw Error(`Invalid input [pattern]: ${patternInput}`);
+        }
+        const globber = yield glob.create([...pattern].join('\n'));
+        const files = yield globber.glob();
+        console.log(files);
+    }
+    catch (error) {
+        core.error(error instanceof Error ? error.message : JSON.stringify(error));
+    }
 });
 exports["default"] = run;
 
