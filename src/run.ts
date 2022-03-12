@@ -1,21 +1,12 @@
 import * as core from '@actions/core';
-import * as github from '@actions/github';
+// import * as github from '@actions/github';
+import * as glob from '@actions/glob';
 
 const run = async (): Promise<void> => {
-  const token = core.getInput('github-token');
-  if (!token) return core.setFailed('No input \'github-token\'');
-
-  const octokit = github.getOctokit(token);
-
-  const {
-    viewer: { login },
-  } = await octokit.graphql(`{ 
-    viewer { 
-      login
-    }
-  }`);
-
-  core.info(`Hello, ${login}!`);
+  const pattern = core.getInput('pattern');
+  const globber = await glob.create(pattern)
+  const files = await globber.glob()
+  console.log(files);
 };
 
 export default run;

@@ -10,6 +10,10 @@ inputs:
     description: The GitHub token used to create an authenticated client
     default: ${{ github.token }}
     required: false
+  pattern:
+    description: The pattern to use when searching for files
+    default: "**/*"
+    required: false
 
 runs:
   using: "node16"
